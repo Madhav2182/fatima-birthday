@@ -1,0 +1,319 @@
+<!DOCTYPE html>
+<html lang="en" >
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Happy Birthday Fatima 🎂</title>
+  <link href="https://fonts.googleapis.com/css2?family=Pacifico&family=Open+Sans&display=swap" rel="stylesheet" />
+  <style>
+    /* Reset */
+    * {
+      box-sizing: border-box;
+      margin: 0; padding: 0;
+    }
+    body {
+      background: radial-gradient(circle at center, #fff0f5 0%, #ffe0ec 40%, #ffd1dc 100%);
+      font-family: 'Open Sans', sans-serif;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      padding: 2rem 1rem 5rem;
+      text-align: center;
+      color: #3e2c41;
+      overflow-x: hidden;
+      position: relative;
+      user-select: none;
+    }
+
+    /* Sparkles background */
+    body::before {
+      content: "";
+      position: fixed;
+      top: 0; left: 0; width: 100%; height: 100%;
+      pointer-events: none;
+      background-image:
+        radial-gradient(2px 2px at 20% 30%, #ff99cc, transparent),
+        radial-gradient(3px 3px at 50% 70%, #ff66b3, transparent),
+        radial-gradient(2px 2px at 80% 20%, #ffb3d1, transparent);
+      background-repeat: repeat;
+      background-size: 150px 150px;
+      animation: sparkleMove 20s linear infinite;
+      z-index: 0;
+    }
+    @keyframes sparkleMove {
+      0% { background-position: 0 0, 0 0, 0 0; }
+      100% { background-position: 300px 300px, 150px 150px, 300px 150px; }
+    }
+
+    h1 {
+      font-family: 'Pacifico', cursive;
+      font-size: clamp(2.5rem, 6vw, 4rem);
+      color: #ff3377;
+      margin-bottom: 0.4em;
+      text-shadow: 0 3px 8px rgba(255, 51, 119, 0.6);
+      opacity: 0;
+      animation: fadeInUp 1.2s forwards;
+    }
+
+    p {
+      max-width: 600px;
+      font-size: clamp(1rem, 2.5vw, 1.3rem);
+      color: #523a56;
+      line-height: 1.5;
+      margin: 0.8em auto;
+      opacity: 0;
+      animation: fadeInUp 1.2s forwards;
+      animation-delay: 0.5s;
+    }
+
+    #surprise {
+      margin-top: 2em;
+      opacity: 0;
+      max-width: 600px;
+      color: #664d73;
+      font-size: clamp(1rem, 2.5vw, 1.25rem);
+      line-height: 1.6;
+      display: none;
+      animation: fadeInUp 1.5s forwards;
+      user-select: text;
+    }
+
+    .emoji-line {
+      font-size: clamp(1.5rem, 5vw, 2.5rem);
+      margin: 1em 0;
+      user-select: none;
+    }
+
+    /* New personalized message */
+    #personalMessage {
+      margin-top: 2rem;
+      max-width: 600px;
+      font-size: clamp(1rem, 2.5vw, 1.2rem);
+      color: #7a577a;
+      font-style: italic;
+      line-height: 1.5;
+      opacity: 0;
+      animation: fadeInUp 1.5s forwards;
+      user-select: text;
+    }
+
+    button {
+      margin-top: 2.5em;
+      padding: 16px 38px;
+      font-size: 1.3rem;
+      font-weight: 600;
+      color: #fff;
+      background: linear-gradient(45deg, #ff2a7b, #ff7aa6);
+      border: none;
+      border-radius: 40px;
+      cursor: pointer;
+      box-shadow: 0 8px 15px rgba(255, 42, 123, 0.6);
+      transition: all 0.3s ease;
+      user-select: none;
+      position: relative;
+      overflow: hidden;
+      outline-offset: 2px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+    }
+    button:focus-visible {
+      outline: 3px solid #ff7aa6;
+    }
+    button:hover:not(:disabled) {
+      background: linear-gradient(45deg, #ff7aa6, #ff2a7b);
+      box-shadow: 0 10px 20px rgba(255, 122, 166, 0.8);
+      transform: translateY(-3px);
+    }
+    button:disabled {
+      opacity: 0.6;
+      cursor: default;
+      box-shadow: none;
+      transform: none;
+    }
+
+    footer {
+      margin-top: auto;
+      font-size: 0.9rem;
+      color: #a087a6;
+      user-select: none;
+      opacity: 0.7;
+    }
+
+    /* Animations */
+    @keyframes fadeInUp {
+      0% {
+        opacity: 0;
+        transform: translateY(20px);
+      }
+      100% {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    /* Confetti canvas */
+    canvas {
+      position: fixed;
+      top: 0; left: 0;
+      width: 100%;
+      height: 100%;
+      pointer-events: none;
+      z-index: 1000;
+    }
+
+    /* Responsive tweaks */
+    @media (max-width: 480px) {
+      body {
+        padding: 1.5rem 1rem 3rem;
+      }
+      p, #surprise, #personalMessage {
+        font-size: 1rem;
+      }
+      button {
+        font-size: 1.1rem;
+        padding: 14px 30px;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <canvas id="confetti-canvas" aria-hidden="true"></canvas>
+
+  <h1>Happy Birthday, Fatima! 🎉</h1>
+  <p>Today, we celebrate the incredible person you are and the joy you bring to everyone around you.</p>
+  <p>May your days be filled with laughter, love, and endless magic. 💖</p>
+
+  <button id="surpriseBtn" aria-haspopup="true" aria-expanded="false" aria-controls="surprise personalMessage">
+    🎁 Tap for Your Surprise
+  </button>
+
+  <section id="surprise" role="region" aria-live="polite" aria-label="Birthday Surprise Message" tabindex="-1">
+    <p class="emoji-line" aria-hidden="true">🎈🎊🎂💐🎉</p>
+    <p>You are one of a kind, truly special and deeply loved.</p>
+    <p>Wishing you laughter in your heart, sparkle in your eyes, and happiness in every step you take. 🌸</p>
+    <p class="emoji-line" aria-hidden="true">💫💖🌟🌈🎁</p>
+  </section>
+
+  <p id="personalMessage" tabindex="-1" style="display:none;">
+    Since we first met on Monkey.app on <strong>19th October 2024</strong>,<br />
+    we spent countless winters talking on the balcony over the phone whenever we were free.<br />
+    There were times we got angry, but even then,<br />
+    there wasn’t a single day I didn’t think about you or miss you.<br />
+    You are my best best friend, and maybe even more than that.<br />
+    Here’s to many more memories, laughter, and moments together. ❤️
+  </p>
+
+  <footer>Made by Gadha</footer>
+
+  <audio id="music" loop preload="auto">
+    <source src="https://cdn.pixabay.com/download/audio/2023/03/24/audio_e96054d09e.mp3?filename=happy-birthday-14327.mp3" type="audio/mp3" />
+    Your browser does not support the audio element.
+  </audio>
+
+  <script>
+    // Confetti animation with stop after 12s
+    const canvas = document.getElementById('confetti-canvas');
+    const ctx = canvas.getContext('2d');
+    let particles = [];
+    let running = false;
+    let intervalId;
+
+    function resizeCanvas() {
+      canvas.width = window.innerWidth;
+      canvas.height = window.innerHeight;
+    }
+    window.addEventListener('resize', resizeCanvas);
+    resizeCanvas();
+
+    function createParticle() {
+      return {
+        x: Math.random() * canvas.width,
+        y: -10,
+        r: Math.random() * 7 + 4,
+        d: Math.random() * 5 + 2,
+        color: `hsl(${Math.random() * 360}, 70%, 65%)`,
+        tilt: Math.random() * 15 - 10,
+        tiltAngleIncrement: Math.random() * 0.05 + 0.01,
+        tiltAngle: 0
+      };
+    }
+
+    function initParticles() {
+      particles = [];
+      for (let i = 0; i < 200; i++) {
+        particles.push(createParticle());
+      }
+    }
+
+    function drawParticles() {
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+      particles.forEach(p => {
+        ctx.beginPath();
+        ctx.lineWidth = p.r;
+        ctx.strokeStyle = p.color;
+        ctx.moveTo(p.x + p.tilt + p.r / 2, p.y);
+        ctx.lineTo(p.x + p.tilt, p.y + p.tilt + p.r / 2);
+        ctx.stroke();
+      });
+      updateParticles();
+    }
+
+    function updateParticles() {
+      particles.forEach(p => {
+        p.tiltAngle += p.tiltAngleIncrement;
+        p.y += (Math.cos(p.d) + 3 + p.r / 2) / 2;
+        p.tilt = Math.sin(p.tiltAngle) * 15;
+        if (p.y > canvas.height) {
+          p.x = Math.random() * canvas.width;
+          p.y = -20;
+        }
+      });
+    }
+
+    function startConfetti() {
+      if (running) return;
+      running = true;
+      initParticles();
+      intervalId = setInterval(drawParticles, 30);
+      // Stop confetti after 12 seconds
+      setTimeout(() => {
+        clearInterval(intervalId);
+        running = false;
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+      }, 12000);
+    }
+
+    // Surprise button handler
+    const surpriseBtn = document.getElementById('surpriseBtn');
+    const surpriseSection = document.getElementById('surprise');
+    const personalMessage = document.getElementById('personalMessage');
+    const music = document.getElementById('music');
+
+    surpriseBtn.addEventListener('click', () => {
+      surpriseSection.style.display = 'block';
+      personalMessage.style.display = 'block';
+      surpriseSection.style.opacity = '1';
+      personalMessage.style.opacity = '1';
+
+      surpriseSection.focus();
+      personalMessage.focus();
+
+      surpriseBtn.disabled = true;
+      surpriseBtn.setAttribute('aria-expanded', 'true');
+      surpriseBtn.style.cursor = 'default';
+      surpriseBtn.style.opacity = '0.7';
+
+      // Start music
+      music.play().catch(() => {});
+
+      // Start confetti
+      startConfetti();
+    });
+  </script>
+</body>
+</html>
